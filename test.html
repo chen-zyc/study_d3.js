@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script src="js/d3/d3.js" charset="utf-8"></script>
+</head>
+<body>
+<script>
+    (function () {
+        d3.select('body')
+                .style('background-color', "white")
+                .transition()
+                .duration(2000)
+                .delay(1000)
+                .style('background-color', 'black');
+    })();
+</script>
+</body>
+</html>

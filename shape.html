@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shape</title>
+    <script src="js/d3/d3.js" charset="utf-8"></script>
+</head>
+
+<body>
+    <h1>简单的矩形</h1>
+    <div id="rect-1">
+        <div></div>
+        <script type="text/javascript">
+            (function() {
+                var svg = d3.select('#rect-1').select('div').append('svg');
+                svg.attr('width', 800).attr('height', 300);
+                svg.selectAll('rect') // 选择当前DOM中所有rect元素,这里没有
+                    .data([100, 200, 300]) // 绑定数据
+                    .enter() // 当前选择中存在但是当前DOM元素中还不存在的每个数据元素的占位符节点
+                    .append('rect') // 补充没有存在的DOM元素
+                    .attr('x', 20).attr('y', function(d, i) {
+                        return i * 25;
+                    }).attr('width', function(d, i) {
+                        return d;
+                    }).attr('height', 20)
+                    .attr('fill', 'steelblue');
+            })()
+        </script>
+    </div>
+
+    <h1>圆</h1>
+    <div id="circle"></div>
+    <script type="text/javascript">
+        (function() {
+            var svg = d3.select('#circle').append('svg')
+                .attr('width', 400)
+                .attr('height', 400);
+            svg.append('circle')
+                .attr('cx', 100)
+                .attr('cy', 100)
+                .attr('r', 100)
+                .style('fill', 'steelblue');
+        })()
+    </script>
+</body>
+
+</html>

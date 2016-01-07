@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>集群图</title>
+    <script src="js/d3/d3.js" charset="utf-8"></script>
+    <style media="screen">
+        .node circle {
+            fill: white;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cluster"></div>
+    <script type="text/javascript">
+        (function() {
+            var dataset = {
+                "name": "中国",
+                "children": [{
+                    "name": "浙江",
+                    "children": [{
+                        "name": "杭州"
+                    }, {
+                        "name": "宁波"
+                    }, {
+                        "name": "温州"
+                    }, {
+                        "name": "绍兴"
+                    }]
+                }, {
+                    "name": "广西",
+                    "children": [{
+                        "name": "桂林",
+                        "children": [{
+                            "name": "秀峰区"
+                        }, {
+                            "name": "叠彩区"
+                        }, {
+                            "name": "象山区"
+                        }, {
+                            "name": "七星区"
+                        }]
+                    }, {
+                        "name": "南宁"
+                    }, {
+                        "name": "柳州"
+                    }, {
+                        "name": "防城港"
+                    }]
+                }, {
+                    "name": "黑龙江",
+                    "children": [{
+                        "name": "哈尔滨"
+                    }, {
+                        "name": "齐齐哈尔"
+                    }, {
+                        "name": "牡丹江"
+                    }, {
+                        "name": "大庆"
+                    }]
+                }, {
+                    "name": "新疆",
+                    "children": [{
+                        "name": "乌鲁木齐"
+                    }, {
+                        "name": "克拉玛依"
+                    }, {
+                        "name": "吐鲁番"
+                    }, {
+                        "name": "哈密"
+                    }]
+                }]
+            };
+            // 集群图布局（转换器）
+            var cluster = d3.layout.cluster()
+                .size([400, 400]); // 输出域范围
+            // 转换数据(转换后是一颗正着的树)
+            var nodes = cluster.nodes(dataset);
+            var links = cluster.links(nodes);
+            console.log(nodes);
+            console.log(links);
+
+            var svg = d3.select('#cluster').append('svg')
+                .attr('width', 800)
+                .attr('height', 500)
+                .append('g')
+                .attr('transform', 'translate(100, 0)');
+            // 连线,连线在节点之前渲染，这样节点的圆可以覆盖线
+            // 对角线生成器，连线是贝塞尔曲线
+            var diagonal = d3.svg.diagonal()
+                .projection(function(d) {
+                    return [d.y, d.x]; // 连线也要竖着
+                });
+            svg.selectAll('path').data(links).enter().append('path')
+                .attr('class', 'link')
+                .attr('d', diagonal);
+            // 节点
+            var svg_nodes = svg.selectAll('g').data(nodes).enter().append('g')
+                .attr('class', 'node')
+                .attr('transform', function(d) {
+                    // [y,x]树是倒着的，[x,y]树是正着的
+                    return 'translate(' + d.y + ',' + d.x + ')';
+                })
+            svg_nodes.append('circle')
+                .attr('r', 5)
+            svg_nodes.append('text')
+                .attr('dx', function(d) {
+                    return d.children ? -8 : 8; // 非叶子在左，叶子在右
+                })
+                .attr('dy', 3)
+                .style('text-anchor', function(d) {
+                    return d.children ? 'end' : 'start';
+                })
+                .text(function(d) {
+                    return d.name;
+                });
+
+        })()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>D3-basic</title>
+    <script src="js/d3/d3.js" charset="utf-8"></script>
+</head>
+
+<body>
+    <h1>Select</h1>
+    <div id="select">
+        <p></p>
+        <p></p>
+        <script type="text/javascript">
+            (function() {
+                d3.select('body').select('#select').selectAll('p').text('I select you!');
+            })();
+        </script>
+        <p>d3.select()：是选择所有指定元素的第一个</p>
+        <p>d3.selectAll()：是选择指定元素的全部</p>
+    </div>
+
+    <h1>Set Style</h1>
+    <div id="set-style">
+        <p>#set-style text</p>
+        <script type="text/javascript">
+            (function() {
+                d3.select('#set-style').style('color', 'blue').style('font-size', '20px');
+            })();
+        </script>
+    </div>
+
+    <h1>绑定数据</h1>
+    <h2>绑定数据到选择集上</h2>
+    <div id="bind-data-1">
+        <p></p>
+        <p></p>
+        <script type="text/javascript">
+            (function() {
+                var p = d3.select('#bind-data-1').selectAll('p');
+                p.datum('data for binding.');
+                // 用绑定的数据赋值
+                p.text(function(data, i) {
+                    return i + ": " + data;
+                });
+            })()
+        </script>
+    </div>
+    <h2>绑定数组到选择集上</h2>
+    <div id="bind-data-2">
+        <p></p>
+        <p></p>
+        <p></p>
+        <script type="text/javascript">
+            (function() {
+                var p = d3.select('#bind-data-2').selectAll('p');
+                p.data(["first data", "second data"]);
+                // 第3个没有数据
+                p.text(function(data, i) {
+                    return i + ": " + data;
+                });
+            })()
+        </script>
+    </div>
+
+    <h1>插入元素</h1>
+    <div id="insert-ele">
+        <p>second</p>
+        <p>three</p>
+        <script type="text/javascript">
+            (function() {
+                // 在第一个p之前插入
+                var container = d3.select('#insert-ele');
+                container.insert('p', ':first-child').text('first');
+                // 在最后添加元素
+                container.append('p').text('four');
+            })()
+        </script>
+    </div>
+
+    <h1>删除元素</h1>
+    <div id="delete-ele">
+        <p>first</p>
+        <p>不应该存在的元素</p>
+        <script type="text/javascript">
+            (function() {
+                d3.select('#delete-ele').select(':nth-child(2)').remove();
+            })()
+        </script>
+    </div>
+
+    <h1>Enter & Update</h1>
+    <div id="enter-update">
+        <p></p>
+        <p></p>
+        <p></p>
+        <script type="text/javascript">
+            (function() {
+                var p = d3.select('#enter-update').selectAll('p');
+                var update = p.data([1, 2, 3, 4, 5]); // 数据多于元素
+                var enter = update.enter();
+                // update部分的处理：更新属性值
+                update.text(function(d, i) {
+                    return i + ": update-" + d;
+                });
+                // enter部分的处理：添加元素后赋予属性值
+                enter.append('p').text(function(d, i) {
+                    return i + ": enter-" + d;
+                });
+            })()
+        </script>
+        <div>update 部分的处理办法一般是：更新属性值</div>
+        <div>enter 部分的处理办法一般是：添加元素后，赋予属性值</div>
+    </div>
+
+    <h1>Update & Exit</h1>
+    <div id="update-exit">
+        <p>text 1</p>
+        <p>text 2</p>
+        <p>text 3</p>
+        <script type="text/javascript">
+            (function() {
+                var p = d3.select('#update-exit').selectAll('p');
+                var update = p.data([1, 2]); // 数据少于元素
+                var exit = update.exit();
+                update.text(function(d, i) {
+                    return 'update ' + d;
+                });
+                exit.remove();
+            })()
+        </script>
+        <div>exit 部分的处理办法一般是：删除元素（remove）</div>
+    </div>
+
+
+    
+</body>
+
+</html>
