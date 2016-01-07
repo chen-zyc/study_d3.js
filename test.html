@@ -8,13 +8,16 @@
 <body>
 <script>
     (function () {
-        var linear = d3.scale.linear()
-                .domain([0, 10]) // 定义域，x轴范围
-                .range([0, 100]); // 值域，y轴范围
-        console.log(linear(0)); // 0
-        console.log(linear(5)); // 50
-        console.log(linear(10)); // 100
-        console.log(linear(20)); // 200
+        var ordinal = d3.scale.ordinal()
+                .domain([1, 3, 5, 7, 9])
+                .range(['a', 'b', 'c', 'd']);
+        console.log(ordinal(1)); // a
+        console.log(ordinal(3)); // b
+        console.log(ordinal(5)); // c
+        console.log(ordinal(7)); // d
+        console.log(ordinal(9)); // a
+        console.log(ordinal(1)); // a
+        console.log(ordinal(2)); // b
     })();
 </script>
 </body>
