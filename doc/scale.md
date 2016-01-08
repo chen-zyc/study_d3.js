@@ -114,4 +114,12 @@ o.rangeExtent(); // [0, 100]
 
 rangeBand的计算：
 
-首尾各一个 `step * outerPadding`, 
+首尾各一个 `step * outerPadding`, `step = rangeBand + step * padding`, 除最后一个元素外其余元素都有一个 step, 最后一个元素只有rangeBand.
+
+所以：
+
+```
+step * outerPadding * 2 + (dataLength - 1) * step * rangeBand = interval
+rangeBand = step * (1 - padding)
+```
+
