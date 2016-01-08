@@ -1,112 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Bar</title>
-    <script type="text/javascript" src="js/d3/d3.min.js"></script>
-    <style>
-        .chart rect {
-            fill: steelblue;
-        }
-
-        .chart text {
-            fill: white;
-            text-anchor: end;
-			font-family: Consolas;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>Bar</title>
+	<script type="text/javascript" src="js/d3/d3.min.js"></script>
 </head>
 <body>
 <div id="container"></div>
 <script type="text/javascript">
-    (function () {
-        var data = [4, 8, 15, 16, 23, 42];
-        var width = 800,
-                barHeight = 30;
-        var x = d3.scale.linear()
-                .domain([0, d3.max(data)])
-                .range([0, width]);
-        var chart = d3.select('#container').append('svg')
-                .attr('class', 'chart')
-                .attr('width', width)
-                .attr('height', barHeight * data.length);
-        console.log(chart);
-        // 容器
-        var bar = chart.selectAll('g')
-                .data(data)
-                .enter()
-                .append('g')
-                .attr('transform', function (d, i) {
-                    return 'translate(0, ' + barHeight * i + ')';
-                });
-        // 矩形
-        bar.append('rect')
-                .attr('width', x) // 用函数作为宽度的转换器而不是具体数
-                .attr('height', barHeight - 1); // -1 是为了留空白
-        // 文本
-        bar.append('text')
-                .attr('x', function (d, i) {
-                    return x(d) - 3; // 比宽度少3px
-                })
-                .attr('y', barHeight / 2)
-                .attr('dy', '0.35em')
-                .text(function (d) {
-                    return d;
-                });
-    })();
+	(function () {
+		var data = [4, 8, 15, 16, 23, 42];
+		var width = 800,
+				barHeight = 30;
+		var x = d3.scale.linear()
+				.domain([0, d3.max(data)])
+				.range([0, width]);
+		var chart = d3.select('#container').append('svg')
+				.attr('class', 'chart')
+				.attr('width', width)
+				.attr('height', barHeight * data.length);
+		console.log(chart);
+		// 容器
+		var bar = chart.selectAll('g')
+				.data(data)
+				.enter()
+				.append('g')
+				.attr('transform', function (d, i) {
+					return 'translate(0, ' + barHeight * i + ')';
+				});
+		// 矩形
+		bar.append('rect')
+				.style('fill', 'steelblue')
+				.attr('width', x) // 用函数作为宽度的转换器而不是具体数
+				.attr('height', barHeight - 1); // -1 是为了留空白
+		// 文本
+		bar.append('text')
+				.style('fill', "white")
+				.style('text-anchor', 'end')
+				.style('font-family', 'Consolas')
+				.attr('x', function (d, i) {
+					return x(d) - 3; // 比宽度少3px
+				})
+				.attr('y', barHeight / 2)
+				.attr('dy', '0.35em')
+				.text(function (d) {
+					return d;
+				});
+	})();
 </script>
 
 <div id="container2">
-    <h2>数据从服务器获取</h2>
-    <script type="text/javascript">
-        (function () {
-            var width = 800,
-                    barHeight = 30;
-            var x = d3.scale.linear()
-                    .range([0, width]);
-            var chart = d3.select('#container2').append('svg')
-                    .attr('class', 'chart')
-                    .attr('width', width);
+	<h2>数据从服务器获取</h2>
+	<script type="text/javascript">
+		(function () {
+			var width = 800,
+					barHeight = 30;
+			var x = d3.scale.linear()
+					.range([0, width]);
+			var chart = d3.select('#container2').append('svg')
+					.attr('class', 'chart')
+					.attr('width', width);
 
-            // 用于格式转换
-            var type = function (d) {
-                d.value = +d.value; // coerce to number
-                return d;
-            };
-            d3.tsv("/files/bar_data.tsv", type, function (err, data) {
-                if (err) {
-                    alert(err);
-                    return
-                }
-                console.log(data);
-                x.domain([0, d3.max(data, function (d) {
-                    return d.value;
-                })]);
-                chart.attr('height', barHeight * data.length);
-                var bar = chart.selectAll('g')
-                        .data(data)
-                        .enter()
-                        .append('g')
-                        .attr('transform', function (d, i) {
-                            return 'translate(0, ' + barHeight * i + ')';
-                        });
-                bar.append('rect')
-                        .attr('width', function (d) {
-                            return x(d.value);
-                        })
-                        .attr('height', barHeight - 1);
-                bar.append('text')
-                        .attr('x', function (d, i) {
-                            return x(d.value) - 3; // 比宽度少3px
-                        })
-                        .attr('y', barHeight / 2)
-                        .attr('dy', '0.35em')
-                        .text(function (d) {
-                            return d.name;
-                        })
-            });
-        })();
-    </script>
+			// 用于格式转换
+			var type = function (d) {
+				d.value = +d.value; // coerce to number
+				return d;
+			};
+			d3.tsv("/files/bar_data.tsv", type, function (err, data) {
+				if (err) {
+					alert(err);
+					return
+				}
+				console.log(data);
+				x.domain([0, d3.max(data, function (d) {
+					return d.value;
+				})]);
+				chart.attr('height', barHeight * data.length);
+				var bar = chart.selectAll('g')
+						.data(data)
+						.enter()
+						.append('g')
+						.attr('transform', function (d, i) {
+							return 'translate(0, ' + barHeight * i + ')';
+						});
+				bar.append('rect')
+						.style('fill', 'steelblue')
+						.attr('width', function (d) {
+							return x(d.value);
+						})
+						.attr('height', barHeight - 1);
+				bar.append('text')
+						.style('fill', "white")
+						.style('text-anchor', 'end')
+						.style('font-family', 'Consolas')
+						.attr('x', function (d, i) {
+							return x(d.value) - 3; // 比宽度少3px
+						})
+						.attr('y', barHeight / 2)
+						.attr('dy', '0.35em')
+						.text(function (d) {
+							return d.name;
+						})
+			});
+		})();
+	</script>
+</div>
+<div id="container3">
+	<h2>frequency of letters in the English language</h2>
+	<script type="text/javascript">
+		(function () {
+			var width = 960;
+			var height = 500;
+			var margin = {
+				top: 20,
+				right: 30,
+				bottom: 30,
+				left: 40
+			};
+			var innerWidth = width - margin.left - margin.right;
+			var innerHeight = height - margin.top - margin.bottom;
+
+			var x = d3.scale.
+			var y = d3.scale.linear()
+					.range([innerHeight, 0]);
+			var chart = d3.select('#container3').append('svg')
+					.attr('width', width)
+					.attr('height', height)
+					.append('g')
+					.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+			var type = function (d) {
+				d.value = +d.value;
+				return d;
+			};
+			// x轴
+			var xAxis = d3.svg.axis()
+					.scale(x)
+					.orient('bottom');
+			d3.tsv('/files/bar2_data.tsv', type, function (err, data) {
+				if (err) {
+					alert(err);
+					return;
+				}
+				y.domain([0, d3.max(data, function (d) {
+					return d.value;
+				})]);
+				var barWidth = innerWidth / data.length;
+				var bar = chart.selectAll('g')
+						.data(data)
+						.enter()
+						.append('g')
+						.attr('transform', function (d, i) {
+							return 'translate(' + i * barWidth + ' ,0)';
+						});
+				bar.append('rect')
+						.style('fill', 'steelblue')
+						.attr('y', function (d, i) {
+							return y(d.value);
+						})
+						.attr('height', function (d, i) {
+							return innerHeight - y(d.value);
+						})
+						.attr('width', barWidth - 1);
+				bar.append('text')
+						.style('fill', "white")
+						.style('text-anchor', 'middle')
+						.style('font-family', 'Consolas')
+						.style('font-size', '0.5em')
+						.attr('x', barWidth / 2)
+						.attr('y', function (d, i) {
+							return y(d.value) + 3;
+						})
+						.attr('dy', '0.75em')
+						.text(function (d, i) {
+							return (d.value * 100).toFixed(2) + '%';
+						});
+			});
+		})();
+	</script>
 </div>
 </body>
 </html>

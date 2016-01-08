@@ -117,3 +117,7 @@ d3.selectAll("circle").transition()
 ```
 
 
+# 坐标系统
+
+The origin of SVG’s coordinate system is in the top-left corner.
+

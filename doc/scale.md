@@ -63,3 +63,55 @@ if len(y) < len(x) :
 ```
 
 多出来的9被分配了'a',再出现未定义的x则从'a'之后分配.
+
+总结：未定义的x会被隐式的加入到定义域中，输出域是循环使用的。
+
+
+## ordinal.rangePoints(interval[, padding])
+
+```js
+var o = d3.scale.ordinal()
+    .domain([1, 2, 3, 4])
+    .rangePoints([0, 100]);
+
+o.range(); // [0, 33.333333333333336, 66.66666666666667, 100]
+
+o.rangePoints([0, 120], 1);
+o.range()   // [15, 45, 75, 105]    前面被空了 30*1/2=15 后面也被空了 15；其中 30 是间隔宽度
+
+o.rangePoints([0, 120], 2);
+o.range()   // [24, 48, 72, 96]    前面被空了 24*2/2=24 后面也被空了 24；其中 24 是间隔宽度
+
+o.rangePoints([0, 120], 3);
+o.range()   // [30, 50, 70, 90]    前面被空了 20*3/2=30 后面也被空了 30；其中 20 是间隔宽
+```
+
+间隔宽度的计算：
+
+![](pic/01.png)
+
+前后有 `step*padding/2`, 每个元素两两相隔 `step`, 总宽度为interval, 所以：
+
+```
+step * padding/2 * 2 + (dataLength - 1) * step = interval
+=> step = interval / (padding + dataLength - 1)
+```
+
+
+## ordinal.rangeBands(interval[, padding[, outerPadding]])
+
+```js
+var o = d3.scale.ordinal()
+    .domain([1, 2, 3])
+    .rangeBands([0, 100]);
+
+o.rangeBand(); // 33.333333333333336
+o.range(); // [0, 33.333333333333336, 66.66666666666667]
+o.rangeExtent(); // [0, 100]
+```
+
+![](pic/02.png)
+
+rangeBand的计算：
+
+首尾各一个 `step * outerPadding`, 
