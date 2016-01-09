@@ -133,6 +133,31 @@ Exit用于删除节点，就是p的个数比data还多，就把多的删除掉�
   text.exit().remove();
 ```
 
+## data()的第二个参数
+
+没有第二个参数的情况下:
+
+```js
+data(data1)
+data(data2)
+```
+
+被比较的两个元素是使用下标选出来的:data1[i] =? data2[i]
+
+如果data2中元素的顺序发生了变化(比如对data2排序), 在执行 `data(data2)` 时原本已经存在的元素就跑到了enter()集合中.
+
+有第二个参数的情况下:
+
+```js
+data(data1, function(d) {return d.id;})
+data(data2, function(d) {return d.id;})
+```
+
+此时相互比较的两个元素就根据id来获取,而不是下标.
+
+具体例子参考 bar_data_key.html 的例子.
+
+
 # Transition
 
 ```js
@@ -145,6 +170,18 @@ d3.selectAll("circle").transition()
     .duration(750)
     .delay(function(d, i) { return i * 10; })
     .attr("r", function(d) { return Math.sqrt(d * scale); });
+```
+
+## 时间监听
+
+```js
+	d3.select('#test').transition()
+			.delay(2000)
+			.duration(5000)
+			.each('start', function () {
+				d3.select(this).style('color', 'green');
+			})
+			.style('color', 'red');
 ```
 
 
