@@ -66,7 +66,7 @@ d3.select(".chart")
 
 
 
-# Enter and Exit
+# Enter Update Exit
 
 ![](pic/03.png)
 
@@ -103,6 +103,35 @@ Exit用于删除节点，就是p的个数比data还多，就把多的删除掉�
 
 比如条形图，初始化时使用的是缩放比1，然后data添加了一些新的数据，此时就可以用enter()选中新的数据使用缩放比2.
 
+## 当在enter()后添加了元素后,新增的元素同样会反映在update集合中
+
+```js
+  // DATA JOIN
+  // Join new data with old elements, if any.
+  var text = svg.selectAll("text")
+      .data(data);
+
+  // UPDATE
+  // Update old elements as needed.
+  text.attr("class", "update");
+
+  // ENTER
+  // Create new elements as needed.
+  text.enter().append("text")
+      .attr("class", "enter")
+      .attr("x", function(d, i) { return i * 32; })
+      .attr("dy", ".35em");
+
+  // ENTER + UPDATE
+  // Appending to the enter selection expands the update selection to include
+  // entering elements; so, operations on the update selection after appending to
+  // the enter selection will apply to both entering and updating nodes.
+  text.text(function(d) { return d; });
+
+  // EXIT
+  // Remove old elements as needed.
+  text.exit().remove();
+```
 
 # Transition
 
