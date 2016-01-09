@@ -68,6 +68,8 @@ d3.select(".chart")
 
 # Enter and Exit
 
+![](pic/03.png)
+
 Enter用于创建新的节点
 
 ```js
