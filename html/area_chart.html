@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Area Chart</title>
+	<script type="text/javascript" src="js/d3/d3.min.js"></script>
+	<style>
+		body {
+			font: 10px sans-serif;
+		}
+
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: #000;
+			shape-rendering: crispEdges;
+		}
+
+		.area {
+			fill: steelblue;
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+			width = 960 - margin.left - margin.right,
+			height = 500 - margin.top - margin.bottom;
+	var parseDate = d3.time.format("%d-%b-%y").parse;
+	var x = d3.time.scale()
+			.range([0, width]);
+	var y = d3.scale.linear()
+			.range([height, 0]);
+	var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient('bottom');
+	var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient('left');
+	var area = d3.svg.area()
+			.x(function (d) {
+				return x(d.date);
+			})
+			.y0(height)
+			.y1(function (d) {
+				return y(d.close);
+			});
+	var svg = d3.select('body')
+			.append('svg')
+			.attr('width', width + margin.left + margin.right)
+			.attr('height', height + margin.top + margin.bottom)
+			.append('g')
+			.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+	d3.tsv('/files/area_data.tsv', function (err, data) {
+		if (err) {
+			throw err;
+		}
+		// 数据转换, 也可以作为d3.tsv的第二个参数
+		data.forEach(function (d) {
+			d.date = parseDate(d.date);
+			d.close = +d.close;
+		});
+		// 比例尺定义域
+		x.domain(d3.extent(data, function (d) {
+			return d.date;
+		}));
+		y.domain([0, d3.max(data, function (d) {
+			return d.close;
+		})]);
+		// 绘制
+		svg.append('path')
+				.datum(data)
+				.attr('class', 'area')
+				.attr('d', area);
+		// 坐标轴
+		svg.append('g')
+				.attr('transform', 'translate(0,' + height + ')')
+				.attr('class', 'x axis')
+				.call(xAxis);
+		svg.append('g')
+				.attr('transform', 'translate(0,0)')
+				.attr('class', 'y axis')
+				.call(yAxis)
+				.append('text')
+				.attr('y', '6')
+				.attr('dy', '0.71em')
+				.attr('transform', 'rotate(-90)')
+				.attr('text-anchor', 'end')
+				.text('Price ($)');
+	});
+</script>
+</body>
+</html>

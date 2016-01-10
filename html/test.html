@@ -8,13 +8,16 @@
 <body>
 <div id="test">hello</div>
 <script>
-	d3.select('#test').transition()
-			.delay(2000)
-			.duration(5000)
-			.each('start', function () {
-				d3.select(this).style('color', 'green');
-			})
-			.style('color', 'red');
+	var arr = [
+		{name: 'a', age: 14},
+		{name: 'b', age: 20},
+		{name: 'c', age: 9},
+		{name: 'd', age: 88}
+	];
+	var r = d3.extent(arr, function (d) {
+		return d.age;
+	});
+	console.log(r); // [9 88]
 </script>
 </body>
 </html>
