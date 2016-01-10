@@ -4,20 +4,17 @@
 	<meta charset="UTF-8">
 	<title>Test</title>
 	<script src="js/d3/d3.js" charset="utf-8"></script>
+	<style>
+	</style>
 </head>
 <body>
 <div id="test">hello</div>
+<span class="a">hello</span>
 <script>
-	var arr = [
-		{name: 'a', age: 14},
-		{name: 'b', age: 20},
-		{name: 'c', age: 9},
-		{name: 'd', age: 88}
-	];
-	var r = d3.extent(arr, function (d) {
-		return d.age;
-	});
-	console.log(r); // [9 88]
+	var arr = [1, 8, 4, 2, 5];
+	var arr2 = arr.reverse();
+	console.log(arr); // [5, 2, 4, 8, 1]
+	console.log(arr2); // [5, 2, 4, 8, 1]
 </script>
 </body>
 </html>

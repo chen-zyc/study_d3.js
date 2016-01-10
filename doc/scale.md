@@ -125,3 +125,29 @@ step * outerPadding * 2 + step * dataLength - step * padding = interval
 rangeBand = step * (1 - padding)
 ```
 
+## color
+
+颜色比例尺是序数比例尺的特例.
+
+```js
+	var color = d3.scale.category10();
+	color.domain(['a','b','c','d']);
+	console.log(color('a')); // #1f77b4
+```
+
+
+# 时间比例尺
+
+```js
+	var parseDate = d3.time.format('%Y-%m-%d').parse;
+	var x = d3.time.scale()
+			.domain([parseDate('2016-01-10'), parseDate('2016-02-01')])
+			.range([0, 100]);
+	['2016-01-10', '2016-01-20', '2016-01-31', '2016-02-01'].map(function (d) {
+		console.log(x(parseDate(d)));
+	});
+	// 0
+	// 45.45454545454545
+	// 95.45454545454545
+	// 100
+```
