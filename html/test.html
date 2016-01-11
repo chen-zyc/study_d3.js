@@ -8,13 +8,27 @@
 	</style>
 </head>
 <body>
-<div id="test">hello</div>
-<span class="a">hello</span>
-<script>
-	var arr = [1, 8, 4, 2, 5];
-	var arr2 = arr.reverse();
-	console.log(arr); // [5, 2, 4, 8, 1]
-	console.log(arr2); // [5, 2, 4, 8, 1]
+<p>hello world</p>
+<p>hello world</p>
+<p>hello world</p>
+<script type="text/javascript">
+	d3.select('body').selectAll('p')
+			.data([1, 2, 3, 4, 5])
+			.enter()
+			.append('p')
+			.text('hello');
 </script>
+
+<svg width="300" height="500">
+	<line x1="10" y1="20" x2="110" y2="120"
+		  stroke="red" stroke-width="5"
+		  stroke-dasharray="5,5"/>
+	<line x1="60" y1="20" x2="160" y2="120"
+		  stroke="green" stroke-width="5"
+		  stroke-dasharray="10,10"/>
+	<line x1="110" y1="20" x2="210" y2="120"
+		  stroke="blue" stroke-width="5"
+		  stroke-dasharray="20,10,5,5,5"/>
+</svg>
 </body>
 </html>

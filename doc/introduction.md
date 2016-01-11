@@ -36,6 +36,32 @@ d3.selectAll("p")
 ```
 
 
+Multiple style properties can also be set in a single call to .style() by passing
+a hash of property names and values. The following has the same result as the
+previous example:
+
+```js
+	d3.selectAll('p').style({
+		background: 'black',
+		color: function (d, i) {
+			if (i % 2 == 0) {
+				return 'red';
+			}
+			return 'white';
+		}
+	});
+
+	d3.selectAll("div").style({
+		width: function (d, i) {
+			return (10 + 10 * i) + "px"
+		},
+		'background-color': function (d, i) {
+			return (i % 2 === 0) ? 'lightblue' : 'lightgray';
+		}
+	});
+```
+
+
 # append()添加元素
 
 ```js
