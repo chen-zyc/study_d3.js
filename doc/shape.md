@@ -56,4 +56,41 @@ x与y0指定面积图下界曲线,x与y1指定上界曲线.
 * monotone - 三次插值，可以保留y的单调性。
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                • linear -分段线性片段，如折线。 • linear-closed –闭合直线段，以形成一个多边形。 • step - 水平和垂直段之间交替，如在step函数中。 • step-before -垂直和水平段之间交替，如在step函数中。 • step-after -水平和垂直段之间交替，如在step函数中。 • basis - B样条曲线，在两端的控制点的重复。 • basis-open – 开放B样条曲线，首尾不会相交。 • basis-closed -封闭B样条曲线，如在一个循环。 • bundle – 等价于basis, 除了使用tension参数拉直样条曲线。 • cardinal – 基本样条曲线，在末端控制点的重复。 • cardinal-open –开放的基本样条曲线，首尾不会相交，但和其他控制点相交。 • cardinal-closed -封闭基本样条曲线，如在一个循环。 • monotone - 三次插值，可以保留y的单调性。
+
+# diagonal
+
+![](pic/04.png)
+
+```js
+<svg width="400" height="400">
+	<path></path>
+</svg>
+<script type="text/javascript">
+	var diagonal = d3.svg.diagonal()
+			.projection(function (d) {
+				return [d.y, d.x];
+			});
+	var o1 = {
+		x: 0,
+		y: 0
+	};
+	var o2 = {
+		x: 100,
+		y: 100
+	};
+	var what = diagonal({
+		source: o1,
+		target: o2
+	});
+	d3.select('svg').select('path')
+			.attr('d', what)
+			.style({
+				fill: 'none',
+				stroke: '#ccc',
+				'stroke-width': '1.5px'
+			});
+
+</script>
+```
+
+

@@ -64,22 +64,23 @@
 				d.children = null;
 			}
 		}
-
+		// root并没有折叠
 		root.children.forEach(collapse);
 		update(root);
 	});
 
 	d3.select(self.frameElement).style("height", "800px");
 
-	function update(source) {
+	function update(source) { // source是被展开的节点
 
 		// Compute the new tree layout.
+		// 只有那些被展开的节点才会加入到nodes中
 		var nodes = tree.nodes(root).reverse(),
 				links = tree.links(nodes);
 
 		// Normalize for fixed-depth.
 		nodes.forEach(function (d) {
-			d.y = d.depth * 180;
+			d.y = d.depth * 180; // 180可认为是两层节点间的距离
 		});
 
 		// Update the nodes…
@@ -89,6 +90,9 @@
 				});
 
 		// Enter any new nodes at the parent's previous position.
+		// 所有新加入的节点都在同一个位置,且位置被倒置了
+		// nodeEnter初始位置是父节点此次计算之前的位置
+		// nodeEnter移动到自己的位置是在在nodeUpdate中改变的.
 		var nodeEnter = node.enter().append("g")
 				.attr("class", "node")
 				.attr("transform", function (d) {
@@ -116,6 +120,7 @@
 				.style("fill-opacity", 1e-6);
 
 		// Transition nodes to their new position.
+		// 位置被改变的节点
 		var nodeUpdate = node.transition()
 				.duration(duration)
 				.attr("transform", function (d) {
