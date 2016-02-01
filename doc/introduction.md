@@ -210,6 +210,16 @@ d3.selectAll("circle").transition()
 			.style('color', 'red');
 ```
 
+each 是在每个补间调用，最后一次调用可以判断i:
+
+```js
+each('end', function(d, i) {
+	if (i == last) {
+		...
+	}
+})
+```
+
 
 # 坐标系统
 
