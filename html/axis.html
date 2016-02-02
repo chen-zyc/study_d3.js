@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Axis</title>
+	<script src="js/d3/d3.js" charset="utf-8"></script>
+</head>
+<body>
+<svg width="900" height="600"></svg>
+<script type="text/javascript">
+	var svg = d3.select('svg');
+	var axisGroup = svg.append('g');
+	var scale = d3.scale.linear().domain([0, 100]).range([0, 500]);
+	var axis = d3.svg.axis().orient('top').scale(scale);
+	axisGroup.attr('transform', 'translate(10, 20)');
+	var axisNodes = axisGroup.call(axis);
+	var domain = axisNodes.selectAll('.domain');
+	domain.attr({
+		fill: 'none',
+		stroke: 'blue',
+		'stroke-width': 1
+	});
+	var ticks = axisNodes.selectAll('.tick line');
+	ticks.attr({
+		fill: 'none',
+		stroke: 'red',
+		'stroke-width': 1
+	});
+</script>
+</body>
+</html>

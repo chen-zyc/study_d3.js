@@ -34,6 +34,26 @@ xAxis单独放到一个g中,并把它定位到适当的位置.
 		}
 ```
 
+
+`call(xAxis)` 返回结果可用于选择坐标轴的元素：
+
+```js
+var axisNodes = axisGroup.call(axis);
+var domain = axisNodes.selectAll('.domain'); // 那条横线
+domain.attr({
+	fill: 'none',
+	'stroke-width': 1,
+	stroke: 'black'
+});
+var ticks = axisNodes.selectAll('.tick line'); // 每个tick的那个短直线
+ticks.attr({
+	fill: 'none',
+	'stroke-width': 1,
+	stroke: 'black'
+});
+```
+
+
 # 格式化输出
 
 ```js
